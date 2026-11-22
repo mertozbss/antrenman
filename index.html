@@ -54,6 +54,8 @@ a.yt{display:inline-block;margin-top:8px;color:var(--ac);font-size:13px;text-dec
 .box{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;flex:none;font-weight:800;color:#06210f}
 .check.on .box{background:var(--ok);border-color:var(--ok)}
 .check .l{flex:1}
+.qbtn{background:var(--card2);border:1px solid var(--line);color:var(--ac);border-radius:10px;padding:7px 10px;font-weight:700;font-size:13px}
+.hbox{padding:0 0 12px}
 .check .l small{display:block;color:var(--mut);font-size:12px}
 .big{width:100%;padding:15px;border-radius:14px;border:0;background:var(--ac);color:#fff;font-weight:700;font-size:16px;margin-top:6px}
 .big.ok{background:var(--ok);color:#06210f}
@@ -154,6 +156,52 @@ const EX = {
    f0:{a:[110,135],k:[104,110],a2:[90,135],k2:[96,110],p:[100,84],s:[100,48],h:[100,36],e:[101,66],w:[102,84]},
    f1:{a:[90,135],k:[96,110],a2:[110,135],k2:[104,110]}}}
 };
+/* Isınma ve esneme hareketleri (kimlikleri listelerdeki anahtarlarla aynı) */
+(function(){
+ const st={a:[100,135],k:[100,110],p:[100,84],s:[100,48],h:[100,36]};
+ const legs=[["a","k"],["k","p"],["p","s"]];
+ // Kol çevirme: omuz etrafında tam daire (8 kare)
+ const kf=[];for(let i=0;i<8;i++){const ang=Math.PI/2+i*Math.PI/4;const ex=Math.cos(ang),ey=Math.sin(ang);
+  kf.push({e:[100+ex*17,48+ey*17],w:[100+ex*34,48+ey*34]})}
+ Object.assign(EX,{
+ arm:{name:"Kol Çevirme",yt:"arm circles warm up",
+  cues:["Dik dur, kollarını yanlara ya da öne uzat","Omuzdan büyük daireler çiz, kollar düz kalsın","10 tur öne, sonra 10 tur geriye","Yavaş başla, daireleri giderek büyüt"],
+  anim:{cap:"yandan görünüm: kol omuz etrafında tam tur atar",seg:[...legs,["s","e"],["e","w"]],acc:["s-e","e-w"],lin:1,dur:2400,
+   f0:Object.assign({},st,kf[0]),kf:kf.slice(1)}},
+ cat:{name:"Kedi-Deve (Cat-Cow)",yt:"cat cow stretch",
+  cues:["Dört ayak pozisyonu: eller omuz, dizler kalça altında","Kedi: nefes verirken sırtını tavana doğru yuvarla, çeneni göğsüne yaklaştır","Deve: nefes alırken belini hafifçe çukurlaştır, başını kaldır","Yavaş ve nefesle uyumlu yap, 8 tekrar"],
+  tip:"Masa başında tutulan sırtı ve beli açar.",
+  anim:{seg:[["s","wS"],["s","m"],["m","p"],["p","k"],["k","a"]],acc:["s-m","m-p"],dur:3600,
+   f0:{wS:[142,135],s:[142,105],m:[117,90],p:[92,105],k:[92,135],a:[66,135],h:[150,114]},
+   f1:{m:[117,113],h:[155,93]}}},
+ hip:{name:"Kalça Açma",yt:"standing hip opener gate warm up",
+  cues:["Dik dur, ellerin belinde","Bir dizini önden göğüs hizasına kaldır","Dizini yana doğru açıp yere indir (kapı açar gibi)","Her taraf 8 tekrar, gerekirse duvardan destek al"],
+  anim:{cap:"önden görünüm",dur:3200,seg:[["aL","kL"],["kL","p"],["aR","kR"],["kR","p"],["p","n"],["sL","sR"],["sL","eL"],["eL","wL"],["sR","eR"],["eR","wR"]],acc:["aR-kR","kR-p"],
+   f0:{aL:[90,135],kL:[91,112],aR:[110,135],kR:[109,112],p:[100,90],n:[100,56],sL:[86,58],sR:[114,58],h:[100,44],eL:[78,74],wL:[93,88],eR:[122,74],wR:[107,88]},
+   kf:[{kR:[106,94],aR:[109,118]},{kR:[130,95],aR:[123,116]},{kR:[118,108],aR:[114,130]}]}},
+ sq:{name:"Ağırlıksız Squat",yt:"bodyweight squat proper form",
+  cues:["Ayaklar omuz genişliğinde","Kollarını öne uzatarak kalçanı geri ve aşağı ver","Dizler ayak parmaklarıyla aynı yönde","Topuklardan iterek kalk"],
+  anim:{seg:[["a","k"],["k","p"],["p","s"],["s","e"],["e","w"]],
+   f0:{a:[100,135],k:[100,110],p:[100,84],s:[100,48],h:[100,36],e:[102,66],w:[103,83]},
+   f1:{k:[117,115],p:[96,110],s:[106,76],h:[109,64],e:[123,77],w:[140,77]}}},
+ walk:{name:"Tempolu Yürüyüş",yt:"brisk walking technique",
+  cues:["Konuşabileceğin ama şarkı söyleyemeyeceğin bir hızda yürü","Dik dur, kollarını doğal şekilde salla","Gün ışığında yürürsen biyolojik saatine de iyi gelir"]},
+ chest:{name:"Göğüs Esnetme (Kapı Kenarı)",yt:"doorway chest stretch",
+  cues:["Kapı kasasının yanında dur","Ön kolunu omuz hizasında kasaya daya, dirsek 90°","Gövdeni hafifçe öne ve karşı tarafa çevir","Göğüs ve omuz önünde gerilme hissetmelisin, acı değil. 30 sn tut, diğer kol"],
+  tip:"Masa başında öne düşen omuzları geri açar."},
+ hipf:{name:"Kalça Önü Esnetme",yt:"kneeling hip flexor stretch",
+  cues:["Öne büyük bir adım at, arka dizini matın üstüne koy","Gövden dik, kalçanı sık","Kalçanı hafifçe öne it","Arka bacağın kalça önünde gerilme hissedeceksin. 30 sn tut, taraf değiştir"],
+  tip:"Uzun süre oturmaktan kısalan kası açar, bel ağrısına iyi gelir.",
+  anim:{seg:[["aF","kF"],["kF","p"],["aB","kB"],["kB","p"],["p","s"],["s","e"],["e","w"]],acc:["kB-p"],dur:3600,
+   f0:{aF:[142,135],kF:[140,108],p:[104,104],kB:[82,133],aB:[56,135],s:[104,68],h:[104,56],e:[118,86],w:[136,104]},
+   f1:{kF:[146,107],p:[112,106],s:[113,70],h:[114,58],e:[127,88],w:[142,103]}}},
+ back:{name:"Çocuk Pozu (Sırt Esnetme)",yt:"child's pose stretch",
+  cues:["Dizlerinin üstüne çök, kalçanı topuklarına bırak","Kollarını öne uzat, alnını yere koy","Derin nefes al, her nefes verişte biraz daha öne uzan","1 dakika rahatça kal"],
+  anim:{seg:[["a","k"],["k","p"],["p","s"],["s","w"]],dur:4000,
+   f0:{a:[78,135],k:[112,133],p:[86,116],s:[128,118],h:[139,125],w:[172,132]},
+   f1:{p:[84,117],s:[131,120],h:[142,127],w:[176,132]}}}
+ });
+})();
 const PLAN = {A:["row","fly","curl","wrist","plank"], B:["push","floor","ohp","squat","bird","farmer"]};
 const WARM = [["arm","Kol çevirme","10 öne, 10 geriye"],["cat","Kedi-deve (cat-cow)","8 tekrar, yavaş"],["hip","Kalça açma","Her taraf 8"],["sq","Ağırlıksız squat","10 tekrar"]];
 const RESTDAY = [["walk","Yürüyüş","30-45 dk, tempolu"],["chest","Göğüs esnetme","Kapı kenarında, 2×30 sn"],["hipf","Kalça önü esnetme","Öne adım pozisyonu, her taraf 2×30 sn"],["back","Sırt esnetme","Çocuk pozu, 1 dk"]];
@@ -197,8 +245,11 @@ function mountAnim(box,id){
 }
 function frame(now){
  ANIMS=ANIMS.filter(a=>a.box.isConnected);
- for(const a of ANIMS){const sp=a.sp,dur=sp.dur||2400,tau=(now%dur)/dur,t=(1-Math.cos(2*Math.PI*tau))/2,P={};
-  for(const k in sp.f0){const p0=sp.f0[k],p1=sp.f1[k]||p0;P[k]=[p0[0]+(p1[0]-p0[0])*t,p0[1]+(p1[1]-p0[1])*t]}
+ for(const a of ANIMS){const sp=a.sp,dur=sp.dur||2400,tau=(now%dur)/dur,P={};let A0,A1,t;
+  if(sp.kf){const fr=[sp.f0,...sp.kf].map((f,i,arr)=>i===0?f:Object.assign({},...arr.slice(0,i+1)));const n=fr.length,x=tau*n,i=Math.floor(x)%n,u=x-Math.floor(x);
+   A0=fr[i];A1=fr[(i+1)%n];t=sp.lin?u:(1-Math.cos(Math.PI*u))/2}
+  else{A0=sp.f0;A1=Object.assign({},sp.f0,sp.f1||{});t=(1-Math.cos(2*Math.PI*tau))/2}
+  for(const k in sp.f0){const p0=A0[k]||sp.f0[k],p1=A1[k]||sp.f0[k];P[k]=[p0[0]+(p1[0]-p0[0])*t,p0[1]+(p1[1]-p0[1])*t]}
   for(const[L,x,y]of a.lines){L.setAttribute("x1",P[x][0]);L.setAttribute("y1",P[x][1]);L.setAttribute("x2",P[y][0]);L.setAttribute("y2",P[y][1])}
   if(a.head){a.head.setAttribute("cx",P.h[0]);a.head.setAttribute("cy",P.h[1])}
   for(const[g,k]of a.dbs){g.setAttribute("x",P[k][0]-8);g.setAttribute("y",P[k][1]-4)}}
@@ -212,10 +263,10 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const DN=["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 const TN={A:"A günü · Sırt, kol, bilek",B:"B günü · Göğüs, omuz, bacak, karın",R:"Dinlenme günü"};
 
-function howHTML(id){const x=EX[id];return `<div class="how"><div class="anim" data-anim="${id}"></div>
+function howHTML(id){const x=EX[id];return `<div class="how">${x.anim?`<div class="anim" data-anim="${id}"></div>`:""}
  <ol class="cues">${x.cues.map(c=>`<li>${esc(c)}</li>`).join("")}</ol>${x.tip?`<div class="tip">💡 ${esc(x.tip)}</div>`:""}
  <a class="yt" href="https://www.youtube.com/results?search_query=${encodeURIComponent(x.yt)}" target="_blank" rel="noopener">▶ YouTube'da örnek videolar (internet gerekir)</a></div>`}
-function checkHTML(list,store,grp){return list.map(([k,l,s])=>`<div class="check ${store[k]?"on":""}" data-act="chk" data-g="${grp}" data-k="${k}"><div class="box">${store[k]?"✓":""}</div><div class="l">${esc(l)}<small>${esc(s)}</small></div></div>`).join("")}
+function checkHTML(list,store,grp){return list.map(([k,l,s])=>`<div class="check ${store[k]?"on":""}" data-act="chk" data-g="${grp}" data-k="${k}"><div class="box">${store[k]?"✓":""}</div><div class="l">${esc(l)}<small>${esc(s)}</small></div>${EX[k]?`<button class="qbtn" data-act="whelp" data-id="${k}">${OPEN["h_"+k]?"Kapat":"Nasıl?"}</button>`:""}</div>${EX[k]&&OPEN["h_"+k]?`<div class="hbox">${howHTML(k)}</div>`:""}`).join("")}
 
 function renderToday(){
  const d=new Date(),L=todayLog(),w=weekNo(d),n=setsFor(w),pr=Math.round(progress(L)*100);
@@ -258,8 +309,10 @@ function renderHist(){
 
 function renderLib(){
  let h=`<header><h1>Hareketler</h1><div class="sub">Animasyonlar internetsiz çalışır. Mavi uzuv hareket eden kısım, turuncu dambıl.</div></header><div class="wrap">`;
+ h+=`<div class="grp">Isınma · her antrenman günü</div>`;WARM.forEach(([id])=>{h+=`<div class="card"><div class="n" style="font-weight:700;font-size:16px">${esc(EX[id].name)}</div>${howHTML(id)}</div>`});
  [["A","A günü · Sırt, kol, bilek"],["B","B günü · Göğüs, omuz, bacak, karın"]].forEach(([t,lab])=>{h+=`<div class="grp">${lab}</div>`;
   PLAN[t].forEach(id=>{h+=`<div class="card"><div class="n" style="font-weight:700;font-size:16px">${esc(EX[id].name)}</div>${howHTML(id)}</div>`})});
+ h+=`<div class="grp">Dinlenme günü · esneme</div>`;RESTDAY.forEach(([id])=>{h+=`<div class="card"><div class="n" style="font-weight:700;font-size:16px">${esc(EX[id].name)}</div>${howHTML(id)}</div>`});
  h+=`<div class="grp">5. haftadan sonra eklenecek</div><div class="card"><b>Barla row</b> (A günü) ve <b>Romanian deadlift</b> (B günü). Diğer hareketlerde form oturduktan sonra başla.
  <a class="yt" href="https://www.youtube.com/results?search_query=${encodeURIComponent("barbell row proper form")}" target="_blank" rel="noopener">▶ Barla row videoları</a><br>
  <a class="yt" href="https://www.youtube.com/results?search_query=${encodeURIComponent("romanian deadlift proper form")}" target="_blank" rel="noopener">▶ Romanian deadlift videoları</a></div></div>`;
@@ -301,6 +354,7 @@ document.addEventListener("click",e=>{
   if(L.sets[id][j]){const n=setsFor(weekNo(new Date()));const last=L.sets[id].slice(0,n).filter(Boolean).length>=n;startTimer(last?90:60);if(last)OPEN[id]=false}
   save();render()}
  else if(act==="kg"){const id=b.dataset.id,inp=document.querySelector(`[data-kgin="${id}"]`);let v=parseFloat((inp.value||"0").replace(",","."))||0;v=Math.max(0,Math.round((v+parseFloat(b.dataset.d))*2)/2);inp.value=v;L.w[id]=v;S.lastW[id]=v;save()}
+ else if(act==="whelp"){const id=b.dataset.id;OPEN["h_"+id]=!OPEN["h_"+id];render()}
  else if(act==="how"){const id=b.dataset.id,card=b.closest(".card"),isOpen=!!card.querySelector(".how");OPEN[id]=!isOpen;render()}
  else if(act==="finish"){L.done=!L.done||!dayDone(L)?true:false;if(L.done)toast("Harika, bugünü tamamladın 💪");save();render()}
  else if(act==="t15"){tEnd=Math.max(tEnd,Date.now())+15000;clearInterval(tInt);tInt=setInterval(tick,250);tick()}
